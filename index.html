@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="vi" class="light-style layout-menu-fixed layout-compact" dir="ltr" data-theme="theme-default"
+  data-assets-path="assets/" data-template="vertical-menu-template-free" data-style="light">
+<head>
+
+<div class="container-xxl py-4">
+  <div style="
+      display: flex;
+      align-items: center;
+      border: 2px solid #007bff;
+      border-radius: 10px;
+      padding: 16px 24px;
+      max-width: 950px;
+      margin: 0 auto;
+      background-color: #f8f9fa;
+      box-shadow: 0 0 12px rgba(0, 123, 255, 0.2);
+    ">
+    <img src="https://cdn.haitrieu.com/wp-content/uploads/2021/12/Logo-DH-Thu-Dau-Mot-TDMU.png"
+         alt="Logo TDMU"
+         style="height:70px; margin-right:24px;" />
+    <div style="text-align:left;">
+      <h2 style="
+          margin: 0 0 8px 0;
+          color:#0d6efd;
+          font-family:'Roboto', sans-serif;
+          font-weight:700;
+          letter-spacing: 0.5px;
+          text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        ">
+        TÊN ĐỀ TÀI: GIÁM SÁT PHA 3
+      </h2>
+      <p style="
+          margin: 4px 0;
+          font-family:'Roboto', sans-serif;
+          font-size: 16px;
+          color:#333;
+        ">
+        <strong>GVHD:</strong> Nguyễn Văn Bình
+      </p>
+<p style="
+  margin: 4px 0;
+  font-family:'Roboto', sans-serif;
+  font-size: 16px;
+  color:#333;
+">
+  <strong>SVTH:</strong><br>
+  Lê Phước Nguyên<br>
+  Nguyễn Huỳnh Ngọc Điền--MSSV: 2225202160107
+</p>
+    </div>
+  </div>
+</div>
+
+  <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
+  <link rel="stylesheet" href="assets/vendor/css/core.css" />
+  <link rel="stylesheet" href="assets/vendor/css/theme-default.css" />
+  <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+  <link rel="stylesheet" href="assets/vendor/libs/apex-charts/apex-charts.css" />
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/highcharts-more.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+</head>
+
+<body>
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <div class="layout-page">
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            
+            <!-- COS PHI 3 PHA -->
+            <div class="row mb-4">
+              <div class="col-12 col-md-4">
+                <div class="card h-100 text-center">
+                  <div class="card-body">
+                    <h5 class="card-title text-primary">COS φ 3 PHA</h5>
+                    <p>Pha A</p><h4 id="cosA">--</h4>
+                    <p>Pha B</p><h4 id="cosB">--</h4>
+                    <p>Pha C</p><h4 id="cosC">--</h4>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CÔNG SUẤT 3 PHA -->
+              <div class="col-12 col-md-4">
+                <div class="card h-100 text-center">
+                  <div class="card-body">
+                    <h5 class="card-title text-danger">CÔNG SUẤT 3 PHA (kW)</h5>
+                    <p>Pha A</p><h4 id="P_1">--</h4>
+                    <p>Pha B</p><h4 id="P_2">--</h4>
+                    <p>Pha C</p><h4 id="P_3">--</h4>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CÔNG SUẤT BIỂU KIẾN -->
+              <div class="col-12 col-md-4">
+                <div class="card h-100 text-center">
+                  <div class="card-body">
+                    <h5 class="card-title text-success">CÔNG SUẤT BIỂU KIẾN (kVA)</h5>
+                    <p>Pha A</p><h4 id="V_A">--</h4>
+                    <p>Pha B</p><h4 id="V_B">--</h4>
+                    <p>Pha C</p><h4 id="V_C">--</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+<!-- 6 ĐỒNG HỒ GAUGE -->
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title mb-3 text-center text-primary">ĐỒNG HỒ CÔNG SUẤT & BIỂU KIẾN</h5>
+    
+    <div class="row text-center">
+      <!-- 3 đồng hồ công suất thực -->
+      <div class="col-12 col-md-4 mb-3">
+        <div id="gaugeA" style="height: 250px;"></div>
+        <p class="fw-medium text-primary">Công suất Pha A (kW)</p>
+      </div>
+      <div class="col-12 col-md-4 mb-3">
+        <div id="gaugeB" style="height: 250px;"></div>
+        <p class="fw-medium text-warning">Công suất Pha B (kW)</p>
+      </div>
+      <div class="col-12 col-md-4 mb-3">
+        <div id="gaugeC" style="height: 250px;"></div>
+        <p class="fw-medium text-success">Công suất Pha C (kW)</p>
+      </div>
+
+      <!-- 3 đồng hồ công suất biểu kiến -->
+      <div class="col-12 col-md-4 mb-3">
+        <div id="gaugeSA" style="height: 250px;"></div>
+        <p class="fw-medium text-success">Biểu kiến Pha A (VA)</p>
+      </div>
+      <div class="col-12 col-md-4 mb-3">
+        <div id="gaugeSB" style="height: 250px;"></div>
+        <p class="fw-medium text-info">Biểu kiến Pha B (VA)</p>
+      </div>
+      <div class="col-12 col-md-4 mb-3">
+        <div id="gaugeSC" style="height: 250px;"></div>
+        <p class="fw-medium text-danger">Biểu kiến Pha C (VA)</p>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .relay-box {
+    border: 2px solid #e0e0e0;
+    border-radius: 14px;
+    padding: 16px;
+    transition: all 0.3s ease;
+    background: linear-gradient(145deg, #ffffff, #f3f4f6);
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+  }
+
+  .relay-box.on {
+    background: linear-gradient(145deg, #e8f9f0, #d1f7e2);
+    border-color: #22c55e;
+    box-shadow: 0 0 12px rgba(34, 197, 94, 0.5);
+  }
+
+  .relay-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .relay-title {
+    font-weight: 600;
+    font-size: 15px;
+    color: #374151;
+  }
+
+  .relay-light {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #9ca3af;
+    box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+    transition: all 0.4s ease;
+  }
+
+  .relay-light.on {
+    background-color: #22c55e;
+    box-shadow: 0 0 12px #4ade80, 0 0 24px #86efac;
+  }
+
+  .relay-status {
+    font-weight: 600;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+
+  .relay-status.on {
+    color: #22c55e;
+  }
+
+  .relay-status.off {
+    color: #6b7280;
+  }
+
+  .btn {
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .btn-outline-success:hover {
+    background-color: #22c55e;
+    color: white;
+  }
+
+  .btn-outline-danger:hover {
+    background-color: #ef4444;
+    color: white;
+  }
+</style>
+
+            
+
+            <!-- 8 RELAY -->
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title mb-3 text-center">ĐIỀU KHIỂN 8 RELAY</h5>
+    <div class="row">
+      <script>
+        for (let i = 1; i <= 8; i++) {
+          document.write(`
+            <div class="col-6 col-md-3 text-center mb-3">
+              <div id="relayBox${i}" class="relay-box">
+                <div class="relay-header mb-2">
+                  <span class="relay-title">Relay ${i}</span>
+                  <div id="relayLight${i}" class="relay-light"></div>
+                </div>
+                <small id="statusLed${i}" class="relay-status off">Tắt</small>
+                <div class="mt-2">
+                  <button id="${i}turnOn" class="btn btn-outline-success btn-sm">Bật</button>
+                  <button id="${i}turnOff" class="btn btn-outline-danger btn-sm">Tắt</button>
+                </div>
+              </div>
+            </div>
+          `);
+        }
+                  </script>
+                </div>
+              </div>
+            </div>
+            <div class="card mt-4">
+                <div class="card-body text-center">
+                  <h5 class="card-title text-primary mb-3">CẤU HÌNH DÒNG ĐIỆN BẢO VỆ</h5>
+                  <p class="text-muted mb-3">Nhập giá trị dòng điện ngưỡng (A) áp dụng cho cả 3 pha</p>
+
+                  <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap">
+                    <input type="number" id="protectAll" class="form-control text-center" 
+                          placeholder="Nhập giá trị (A)" min="0" step="0.1"
+                          style="max-width: 180px;">
+                    <button id="sendProtect" class="btn btn-success px-4">
+                      <i class="bx bx-upload"></i> Xác Nhận
+                    </button>
+                  
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Highcharts style -->
+  <style>
+    .highcharts-figure {
+      margin: 20px auto;
+      width: 100%;
+      text-align: center;
+    }
+  </style>
+  <!-- Core JS -->
+  <script src="assets/vendor/libs/jquery/jquery.js"></script>
+  <script src="assets/vendor/libs/popper/popper.js"></script>
+  <script src="assets/vendor/js/bootstrap.js"></script>
+  <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+  <script src="assets/vendor/js/menu.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/highcharts-more.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+  <script src="https://code.highcharts.com/themes/adaptive.js"></script>
+<figure class="highcharts-figure" 
+  style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;">
+
+  <!-- 3 đồng hồ công suất thực P -->
+  <div id="gaugeA" style="width: 30%; min-width:250px;"></div>
+  <div id="gaugeB" style="width: 30%; min-width:250px;"></div>
+  <div id="gaugeC" style="width: 30%; min-width:250px;"></div>
+
+  <!-- 3 đồng hồ công suất biểu kiến S -->
+  <div id="gaugeSA" style="width: 30%; min-width:250px;"></div>
+  <div id="gaugeSB" style="width: 30%; min-width:250px;"></div>
+  <div id="gaugeSC" style="width: 30%; min-width:250px;"></div>
+</figure>
+
+
+
+  <!-- Tải thư viện Era Widget -->
+  <script src="https://www.unpkg.com/@eohjsc/era-widget@1.1.3/src/index.js"></script>
+  <script>
+
+    // Lấy các phần tử HTML dựa trên ID, liên kết với giao diện người dùng
+    const power1 = document.getElementById('P_1'); 
+    const power2 = document.getElementById('P_2'); 
+    const power3 = document.getElementById('P_3');
+    const powerS1 = document.getElementById('V_A');  
+    const powerS2 = document.getElementById('V_B'); 
+    const powerS3 = document.getElementById('V_C'); 
+    const cosA = document.getElementById('cosA');  
+    const cosB = document.getElementById('cosB'); 
+    const cosC = document.getElementById('cosC')
+    const turnOnrelay1 = document.getElementById('1turnOn'); 
+    const turnOffrelay1 = document.getElementById('1turnOff');
+    const turnOnrelay2 = document.getElementById('2turnOn');
+    const turnOffrelay2 = document.getElementById('2turnOff');
+    const turnOnrelay3 = document.getElementById('3turnOn');
+    const turnOffrelay3 = document.getElementById('3turnOff');
+    const turnOnrelay4 = document.getElementById('4turnOn');
+    const turnOffrelay4 = document.getElementById('4turnOff');
+    const turnOnrelay5 = document.getElementById('5turnOn');
+    const turnOffrelay5 = document.getElementById('5turnOff');
+    const turnOnrelay6 = document.getElementById('6turnOn');
+    const turnOffrelay6 = document.getElementById('6turnOff');
+    const turnOnrelay7 = document.getElementById('7turnOn');
+    const turnOffrelay7 = document.getElementById('7turnOff');
+    const turnOnrelay8 = document.getElementById('8turnOn');
+    const turnOffrelay8 = document.getElementById('8turnOff');  
+    // const SENDONG = document.getElementById('sendProtect');   
+    const statusLed1 = document.getElementById('statusLed1'); 
+    const statusLed2 = document.getElementById('statusLed2');
+    const statusLed3 = document.getElementById('statusLed3'); // Phần tử hiển thị trạng thái đèn LED
+    const statusLed4 = document.getElementById('statusLed4'); 
+    const statusLed5 = document.getElementById('statusLed5');
+    const statusLed6 = document.getElementById('statusLed6');
+    const statusLed7 = document.getElementById('statusLed7'); 
+    const statusLed8 = document.getElementById('statusLed8');
+    const inputProtectFrom = document.getElementById("protectAll");
+    const sendProtect = document.getElementById("sendProtect");  
+    const relayLight1= document.getElementById('relayLight1')  ;
+
+    // Biến để lưu cấu hình và trạng thái hiện tại
+    let configPower1 = null, configPower2 = null, configPower3 = null;
+    let configPowerS1 = null,configPowerS2 = null,configPowerS3 = null;
+    let configCosA =null, configCosB= null, configCosC=null;
+    let statusRL1 = null;
+    let configLed1 = null, newStatusLed1 = null, actions1 = [];
+    let configLed2 = null, newStatusLed2 = null, actions2 = [];
+    let configLed3 = null, newStatusLed3 = null, actions3 = [];
+    let configLed4 = null, newStatusLed4 = null, actions4 = [];
+    let configLed5 = null, newStatusLed5 = null, actions5 = [];
+    let configLed6 = null, newStatusLed6 = null, actions6 = [];
+    let configLed7 = null, newStatusLed7 = null, actions7 = [];
+    let configLed8 = null, newStatusLed8 = null, actions8 = [];
+    let configProtectFrom = null,newSProtectFrom=null, actions9=[];
+
+    const eraWidget = new EraWidget();
+    eraWidget.init({
+      needRealtimeConfigs: true,         /* Cần giá trị hiện thời */
+      needHistoryConfigs: true,          /* Cần giá trị lịch sử */
+      needActions: true,                 /* Cần các hành động (ví dụ Bật/Tắt đèn) */
+      maxRealtimeConfigsCount: 18,        /* Số lượng tối đa giá trị hiện thời */
+      maxHistoryConfigsCount: 1,         /* Số lượng tối đa giá trị lịch sử */
+      maxActionsCount: 17,                /* Số lượng tối đa các hành động có thể kích hoạt */
+      minRealtimeConfigsCount: 0,        /* Số lượng tối thiểu giá trị hiện thời */
+      minHistoryConfigsCount: 0,         /* Số lượng tối thiểu giá trị lịch sử */
+      minActionsCount: 0,                /* Số lượng tối thiểu hành động */
+        needRealtimeConfigs: true,
+
+      /* Hàm callback được gọi khi có cấu hình được nhận từ server */
+      onConfiguration: (configuration) => {
+
+
+
+        // Lưu các cấu hình khi nhận được từ widget
+        configPower1 = configuration.realtime_configs[0];
+        configPower2 = configuration.realtime_configs[1];
+        configPower3 = configuration.realtime_configs[2];    // Lưu cấu hình nhiệt độ
+        configPowerS1 = configuration.realtime_configs[3];
+        configPowerS2 = configuration.realtime_configs[4]; 
+        configPowerS3 = configuration.realtime_configs[5];   // Lưu cấu hình độ ẩm
+        configLed1 = configuration.realtime_configs[6];
+        configLed2 = configuration.realtime_configs[7];   // Lưu cấu hình đèn LED
+        configLed3 = configuration.realtime_configs[8]; 
+        configCosA =configuration.realtime_configs[9];
+        configCosB =configuration.realtime_configs[10];
+        configCosC =configuration.realtime_configs[11];
+        configLed4 = configuration.realtime_configs[12];
+        configLed5 = configuration.realtime_configs[13];   // Lưu cấu hình đèn LED
+        configLed6 = configuration.realtime_configs[14]; 
+        configLed7 = configuration.realtime_configs[15];   // Lưu cấu hình đèn LED
+        configLed8 = configuration.realtime_configs[16]; 
+        configProtectFrom = configuration.realtime_configs[17];
+
+        // configprotectAll = configuration.realtime_configs[17];       
+        actions1 = configuration.actions.slice(0, 2);
+        actions2 = configuration.actions.slice(2, 4);
+        actions3 = configuration.actions.slice(4, 6);
+        actions4 = configuration.actions.slice(6, 8);
+        actions5 = configuration.actions.slice(8, 10);
+        actions6 = configuration.actions.slice(10, 12);
+        actions7 = configuration.actions.slice(12, 14);
+        actions8 = configuration.actions.slice(14, 16);
+        actions9 = configuration.actions.slice(16,17);
+
+        
+      },
+
+      /* Hàm callback được gọi khi nhận giá trị mới từ server */
+      onValues: (values) => {
+        // Cập nhật giá trị nhận được từ widget
+        const valuePower1 = values[configPower1.id].value;  // Giá trị nhiệt độ
+        const valuePower2 = values[configPower2.id].value;
+        const valuePower3 = values[configPower3.id].value;
+        const valueS1POWER = values[configPowerS1.id].value;  // Giá trị độ ẩm
+        const valueS2POWER = values[configPowerS2.id].value; 
+        const valueS3POWER = values[configPowerS3.id].value; 
+        // const valueprotectAll = values[configprotectAll.id].value;
+        const valueLed1 = values[configLed1.id].value;  // Giá trị trạng thái đèn LED
+        const valueLed2 = values[configLed2.id].value;
+        const valueLed3 = values[configLed3.id].value;
+        const valueLed4 = values[configLed4.id].value;  // Giá trị trạng thái đèn LED
+        const valueLed5 = values[configLed5.id].value;
+        const valueLed6 = values[configLed6.id].value;
+        const valueLed7 = values[configLed7.id].value;
+        const valueLed8 = values[configLed8.id].value;
+        const valueCosA = values[configCosA.id].value;  // Giá trị độ ẩm
+        const valueCosB = values[configCosB.id].value; 
+        const valueCosC = values[configCosC.id].value; 
+        const fromValue = values[configProtectFrom.id].value; 
+        
+        // Cập nhật giao diện người dùng với giá trị mới
+          power1.innerHTML = valuePower1 + ' Kwh';
+          power2.innerHTML = valuePower2 + ' Kwh';
+          power3.innerHTML = valuePower3 + ' Kwh';
+
+          powerS1.innerHTML = valueS1POWER + ' VA';  // Hiển thị độ ẩm
+          powerS2.innerHTML = valueS2POWER + ' VA';
+          powerS3.innerHTML = valueS3POWER + ' VA';
+
+          cosA.innerHTML = valueCosA ;
+          cosB.innerHTML = valueCosB ;
+          cosC.innerHTML = valueCosC ;
+
+          gaugeA.series[0].points[0].update(valuePower1);
+          gaugeB.series[0].points[0].update(valuePower2);
+          gaugeC.series[0].points[0].update(valuePower3);
+
+          // Cập nhật kim đồng hồ công suất biểu kiến
+          gaugeSA.series[0].points[0].update(valueS1POWER);
+          gaugeSB.series[0].points[0].update(valueS2POWER);
+          gaugeSC.series[0].points[0].update(valueS3POWER);
+
+        if (newStatusLed1 !== valueLed1) {
+          newStatusLed1 = valueLed1;
+  const relayBox1 = document.getElementById('relayBox1');
+  const relayLight1 = document.getElementById('relayLight1');          
+          if (valueLed1=== 1) {
+            statusLed1.innerHTML = 'RELAY 1  đang bật';  // Hiển thị trạng thái đèn LED đang bật
+    statusLed1.classList.add('on');
+    statusLed1.classList.remove('off');
+    relayLight1.classList.add('on');
+    relayBox1.classList.add('on');
+          } else {
+            statusLed1.innerHTML = 'RELAY 1 đang tắt';
+    statusLed1.classList.remove('on');
+    statusLed1.classList.add('off');
+    relayLight1.classList.remove('on');
+    relayBox1.classList.remove('on');
+          }
+        }
+        if (newStatusLed2 !== valueLed2) {
+          newStatusLed2 = valueLed2;
+  const relayBox2 = document.getElementById('relayBox2');
+  const relayLight2 = document.getElementById('relayLight2'); 
+          if (valueLed2 === 1) {
+            statusLed2.innerHTML = 'RELAY 2 đang bật';  // Hiển thị trạng thái đèn LED đang bật
+    statusLed2.classList.add('on');
+    statusLed2.classList.remove('off');
+    relayLight2.classList.add('on');
+    relayBox2.classList.add('on');
+          } else {
+            statusLed2.innerHTML = 'RELAY 2 đang tắt';  // Hiển thị trạng thái đèn LED đang tắt
+    statusLed2.classList.remove('on');
+    statusLed2.classList.add('off');
+    relayLight2.classList.remove('on');
+    relayBox2.classList.remove('on');            
+          }
+        }
+        if (newStatusLed3 !== valueLed3) {
+          newStatusLed3 = valueLed3;
+  const relayBox3 = document.getElementById('relayBox3');
+  const relayLight3 = document.getElementById('relayLight3');           
+          if (valueLed3 === 1) {
+            statusLed3.innerHTML = ' RELAY 3  đang bật';  // Hiển thị trạng thái đèn LED đang bật
+    statusLed3.classList.add('on');
+    statusLed3.classList.remove('off');
+    relayLight3.classList.add('on');
+    relayBox3.classList.add('on');
+          } else {
+            statusLed3.innerHTML = 'RELAY 3 đang tắt';  // Hiển thị trạng thái đèn LED đang tắt
+    statusLed3.classList.remove('on');
+    statusLed3.classList.add('off');
+    relayLight3.classList.remove('on');
+    relayBox3.classList.remove('on');
+          }
+        }  
+        if (newStatusLed4 !== valueLed4) {
+          newStatusLed4 = valueLed4;
+  const relayBox4 = document.getElementById('relayBox4');
+  const relayLight4 = document.getElementById('relayLight4'); 
+          if (valueLed4=== 1) {
+            statusLed4.innerHTML = 'RELAY 4 đang bật';  // Hiển thị trạng thái đèn LED đang bật
+    statusLed4.classList.add('on');
+    statusLed4.classList.remove('off');
+    relayLight4.classList.add('on');
+    relayBox4.classList.add('on');
+          } else {
+            statusLed4.innerHTML = 'RELAY 4 đang tắt';  // Hiển thị trạng thái đèn LED đang tắt
+    statusLed4.classList.remove('on');
+    statusLed4.classList.add('off');
+    relayLight4.classList.remove('on');
+    relayBox4.classList.remove('on');
+          }
+        }
+        if (newStatusLed5 !== valueLed5) {
+          newStatusLed5 = valueLed5;
+  const relayBox5 = document.getElementById('relayBox5');
+  const relayLight5 = document.getElementById('relayLight5'); 
+          if (valueLed5 === 1) {
+            statusLed5.innerHTML = 'RELAY 5 đang bật';  // Hiển thị trạng thái đèn LED đang bật
+    statusLed5.classList.add('on');
+    statusLed5.classList.remove('off');
+    relayLight5.classList.add('on');
+    relayBox5.classList.add('on');
+          } else {
+            statusLed5.innerHTML = 'RELAY 5 đang tắt';  // Hiển thị trạng thái đèn LED đang tắt
+    statusLed5.classList.remove('on');
+    statusLed5.classList.add('off');
+    relayLight5.classList.remove('on');
+    relayBox5.classList.remove('on');
+          }
+        }
+        if (newStatusLed6 !== valueLed6) {
+          newStatusLed6 = valueLed6;
+  const relayBox6 = document.getElementById('relayBox6');
+  const relayLight6 = document.getElementById('relayLight6'); 
+          if (valueLed6 === 1) {
+            statusLed6.innerHTML = 'RELAY 6 đang bật';  // Hiển thị trạng thái đèn LED đang bật
+    statusLed6.classList.add('on');
+    statusLed6.classList.remove('off');
+    relayLight6.classList.add('on');
+    relayBox6.classList.add('on');
+          } else {
+            statusLed6.innerHTML = 'RELAY 6 đang tắt';  // Hiển thị trạng thái đèn LED đang tắt
+    statusLed6.classList.remove('on');
+    statusLed6.classList.add('off');
+    relayLight6.classList.remove('on');
+    relayBox6.classList.remove('on');
+          }
+        }
+        if (newStatusLed7 !== valueLed7) {
+          newStatusLed7 = valueLed7;
+  const relayBox7 = document.getElementById('relayBox7');
+  const relayLight7 = document.getElementById('relayLight7'); 
+          if (valueLed7 === 1) {
+            statusLed7.innerHTML = 'RELAY 7 đang bật';  // Hiển thị trạng thái đèn LED đang bật
+    statusLed7.classList.add('on');
+    statusLed7.classList.remove('off');
+    relayLight7.classList.add('on');
+    relayBox7.classList.add('on');
+          } else {
+            statusLed7.innerHTML = 'RELAY 7 đang tắt';  // Hiển thị trạng thái đèn LED đang tắt
+    statusLed7.classList.remove('on');
+    statusLed7.classList.add('off');
+    relayLight7.classList.remove('on');
+    relayBox7.classList.remove('on');
+          }
+        }
+        if (newStatusLed8 !== valueLed8) {
+          newStatusLed8 = valueLed8;
+  const relayBox8 = document.getElementById('relayBox8');
+  const relayLight8 = document.getElementById('relayLight8'); 
+          if (valueLed8 === 1) {
+            statusLed8.innerHTML = 'RELAY 8 đang bật';  // Hiển thị trạng thái đèn LED đang bật
+    statusLed8.classList.add('on');
+    statusLed8.classList.remove('off');
+    relayLight8.classList.add('on');
+    relayBox8.classList.add('on');
+          } else {
+            statusLed8.innerHTML = 'RELAY 8 đang tắt';  // Hiển thị trạng thái đèn LED đang tắt
+    statusLed8.classList.remove('on');
+    statusLed8.classList.add('off');
+    relayLight8.classList.remove('on');
+    relayBox8.classList.remove('on');
+          }
+        }  
+        if (newProtectFrom !== fromValue) {
+          newSProtectFrom = fromValue;
+          if (fromValue === 1) {
+            inputProtectFrom.innerHTML = '10';  // Hiển thị trạng thái đèn LED đang bật
+          } else {
+            inputProtectFrom.innerHTML = '0';  // Hiển thị trạng thái đèn LED đang tắt
+          }
+        }    
+      },
+    });
+  turnOnrelay1.addEventListener('click', () => {
+    eraWidget.triggerAction(actions1[0]?.action, null);
+  });
+  turnOffrelay1.addEventListener('click', () => {
+    eraWidget.triggerAction(actions1[1]?.action, null);
+  });
+
+  // Điều khiển relay 2
+  turnOnrelay2.addEventListener('click', () => {
+    eraWidget.triggerAction(actions2[0]?.action, null);
+  }); 
+  turnOffrelay2.addEventListener('click', () => {
+    eraWidget.triggerAction(actions2[1]?.action, null);
+  });
+
+  // Điều khiển relay 3
+  turnOnrelay3.addEventListener('click', () => {
+    eraWidget.triggerAction(actions3[0]?.action, null);
+  });
+  turnOffrelay3.addEventListener('click', () => {
+    eraWidget.triggerAction(actions3[1]?.action, null);
+  });
+  turnOnrelay4.addEventListener('click', () => {
+    eraWidget.triggerAction(actions4[0]?.action, null);
+  });
+  turnOffrelay4.addEventListener('click', () => {
+    eraWidget.triggerAction(actions4[1]?.action, null);
+  });
+  turnOnrelay5.addEventListener('click', () => {
+    eraWidget.triggerAction(actions5[0]?.action, null);
+  });
+  turnOffrelay5.addEventListener('click', () => {
+    eraWidget.triggerAction(actions5[1]?.action, null);
+  });
+  turnOnrelay6.addEventListener('click', () => {
+    eraWidget.triggerAction(actions6[0]?.action, null);
+  });
+  turnOffrelay6.addEventListener('click', () => {
+    eraWidget.triggerAction(actions6[1]?.action, null);
+  });
+  turnOnrelay7.addEventListener('click', () => {
+    eraWidget.triggerAction(actions7[0]?.action, null);
+  });
+  turnOffrelay7.addEventListener('click', () => {
+    eraWidget.triggerAction(actions7[1]?.action, null);
+  });
+  turnOnrelay8.addEventListener('click', () => {
+    eraWidget.triggerAction(actions8[0]?.action, null);
+  });
+  turnOffrelay8.addEventListener('click', () => {
+    eraWidget.triggerAction(actions8[1]?.action, null);
+  });
+  sendProtect.addEventListener("click", () => {
+  eraWidget.triggerAction(actions9[0]?.action, null);
+  const fromValue = inputProtectFrom.value.trim();
+  if (fromValue === "") {
+    alert("Vui lòng nhập giá trị (ví dụ: 10 hoặc 0)");
+    return;
+  }
+
+  // 4️⃣ Cập nhật realtime config — gửi lên ERA Cloud
+  eraWidget.updateRealtimeConfig(configProtectFrom.id, fromValue);
+
+  // 5️⃣ Log ra console để dễ kiểm tra
+  console.log("Đã gửi giá trị bảo vệ lên ERA:", fromValue);
+});
+// ====== HÀM TẠO GAUGE ======
+
+function createGauge(container, title, color) {
+  return Highcharts.chart(container, {
+    chart: {
+      type: 'gauge',
+      height: 250,
+      backgroundColor: 'transparent'
+    },
+    title: { text: title },
+    pane: { startAngle: -150, endAngle: 150 },
+    yAxis: {
+      min: 0,
+      max: 400, // giá trị công suất tối đa
+      tickInterval: 50,
+      plotBands: [
+        { from: 0, to: 200, color: '#55BF3B' },
+        { from: 200, to: 300, color: '#DDDF0D' },
+        { from: 300, to: 400, color: '#DF5353' }
+      ],
+      title: { text: 'kW' }
+    },
+    series: [{
+      name: title,
+      data: [0], // khởi đầu = 0
+      dial: { backgroundColor: color },
+      tooltip: { valueSuffix: ' kW' }
+    }]
+  });
+}
+function createGauge1(container, title, color) {
+  return Highcharts.chart(container, {
+    chart: {
+      type: 'gauge',
+      height: 250,
+      backgroundColor: 'transparent'
+    },
+    title: { text: title },
+    pane: { startAngle: -150, endAngle: 150 },
+    yAxis: {
+      min: 0,
+      max: 4000, // giá trị công suất tối đa
+      tickInterval: 50,
+      plotBands: [
+        { from: 0, to: 2000, color: '#55BF3B' },
+        { from: 2000, to: 3000, color: '#DDDF0D' },
+        { from: 3000, to: 4000, color: '#DF5353' }
+      ],
+      title: { text: 'VA' }
+    },
+    series: [{
+      name: title,
+      data: [0], // khởi đầu = 0
+      dial: { backgroundColor: color },
+      tooltip: { valueSuffix: ' VA' }
+    }]
+  });
+}
+
+//KHỞI TẠO 3 GAUGE
+ 
+const gaugeA = createGauge('gaugeA', 'Pha A', '#007bff');
+const gaugeB = createGauge('gaugeB', 'Pha B', '#ff9800');
+const gaugeC = createGauge('gaugeC', 'Pha C', '#4caf50');
+
+// 3 gauge công suất biểu kiến S
+const gaugeSA = createGauge1('gaugeSA', 'Biểu kiến A (VA)', '#28a745');
+const gaugeSB = createGauge1('gaugeSB', 'Biểu kiến B (VA)', '#ffc107');
+const gaugeSC = createGauge1('gaugeSC', 'Biểu kiến C (VA)', '#17a2b8');
+function updateLight(i) {
+          const light = document.getElementById(`relayLight${i}`);
+          const status = document.getElementById(`statusLed${i}`);
+          const text = status.textContent.trim().toLowerCase();
+          if (text === "bật" || text === "on") {
+            light.classList.add("on");
+            status.classList.add("on");
+            status.classList.remove("off");
+          } else {
+            light.classList.remove("on");
+            status.classList.add("off");
+            status.classList.remove("on");
+          }
+        }
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="vi" class="light-style layout-menu-fixed layout-compact" dir="ltr" data-theme="theme-default">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Giám Sát 3 Pha - ESP32 ERA</title>
+
+  <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
+  <link rel="stylesheet" href="assets/vendor/css/core.css" />
+  <link rel="stylesheet" href="assets/vendor/css/theme-default.css" />
+  <link rel="stylesheet" href="assets/vendor/libs/apex-charts/apex-charts.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .relay {
+      width: 60px;
+      height: 60px;
+      border-radius: 10px;
+      display: inline-block;
+      margin: 5px;
+      background-color: black;
+      text-align: center;
+      color: white;
+      line-height: 60px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .relay.on { background-color: limegreen; }
+  </style>
+</head>
+
+<body>
+  <div class="container-xxl p-4">
+    <h2 class="mb-4 text-primary text-center">HỆ THỐNG GIÁM SÁT 3 PHA (ESP32 + ERA)</h2>
+
+    <!-- Hàng 1: Thông số công suất, cos phi -->
+    <div class="row mb-4">
+      <div class="col-md-4">
+        <div class="card p-3">
+          <h5>Công Suất P (kW)</h5>
+          <p>P1: <span id="p1">--</span> | P2: <span id="p2">--</span> | P3: <span id="p3">--</span></p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-3">
+          <h5>Công Suất S (kVA)</h5>
+          <p>S1: <span id="s1">--</span> | S2: <span id="s2">--</span> | S3: <span id="s3">--</span></p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-3">
+          <h5>Hệ Số Cosφ</h5>
+          <p>Cosφ1: <span id="cos1">--</span> | Cosφ2: <span id="cos2">--</span> | Cosφ3: <span id="cos3">--</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hàng 2: Điện áp, tần số -->
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <div class="card p-3">
+          <h5>Điện Áp 3 Pha (V)</h5>
+          <p>U1: <span id="u1">--</span> | U2: <span id="u2">--</span> | U3: <span id="u3">--</span></p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card p-3">
+          <h5>Tần Số (Hz)</h5>
+          <p id="tanSo">--</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hàng 3: Biểu đồ -->
+    <div class="card mb-4 p-3">
+      <h5>Biểu Đồ Công Suất 3 Pha</h5>
+      <canvas id="chart3Pha" height="100"></canvas>
+    </div>
+
+    <!-- Hàng 4: 8 relay -->
+    <div class="card p-3 mb-4">
+      <h5>Trạng Thái Relay</h5>
+      <div id="relayContainer" class="text-center">
+        <div class="relay" id="r1">R1</div>
+        <div class="relay" id="r2">R2</div>
+        <div class="relay" id="r3">R3</div>
+        <div class="relay" id="r4">R4</div>
+        <div class="relay" id="r5">R5</div>
+        <div class="relay" id="r6">R6</div>
+        <div class="relay" id="r7">R7</div>
+        <div class="relay" id="r8">R8</div>
+      </div>
+    </div>
+
+    <!-- Hàng 5: Nút bật/tắt LED test -->
+    <div class="card p-3 text-center">
+      <h5>Test LED</h5>
+      <p id="statusLed" class="mb-2">Đèn đang tắt</p>
+      <button id="turnOn" class="btn btn-success me-2">Bật LED</button>
+      <button id="turnOff" class="btn btn-danger">Tắt LED</button>
+    </div>
+  </div>
+
+  <!-- Thư viện ERA -->
+  <script src="https://www.unpkg.com/@eohjsc/era-widget@1.1.3/src/index.js"></script>
+
+  <script>
+    const ids = {
+      p: ['p1','p2','p3'],
+      s: ['s1','s2','s3'],
+      cos: ['cos1','cos2','cos3'],
+      u: ['u1','u2','u3'],
+      tanSo: 'tanSo',
+      relays: ['r1','r2','r3','r4','r5','r6','r7','r8'],
+      led: 'statusLed'
+    };
+    const turnOn = document.getElementById('turnOn');
+    const turnOff = document.getElementById('turnOff');
+
+    // Biểu đồ Chart.js
+    const ctx = document.getElementById('chart3Pha').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [
+          { label: 'Pha 1', data: [], borderColor: 'red', fill: false },
+          { label: 'Pha 2', data: [], borderColor: 'green', fill: false },
+          { label: 'Pha 3', data: [], borderColor: 'blue', fill: false }
+        ]
+      },
+      options: { responsive: true, scales: { y: { beginAtZero: true } } }
+    });
+
+    // ERA Widget setup
+    const eraWidget = new EraWidget();
+    let configs = {};
+    let actions = [];
+    onConfiguration: (configuration) => {
+        // Lưu các cấu hình khi nhận được từ widget
+        configRELAY1 = configuration.realtime_configs[0];  // Lưu cấu hình nhiệt độ
+        configREALAY2 = configuration.realtime_configs[1];  // Lưu cấu hình độ ẩm
+        configLed = configuration.realtime_configs[2];  // Lưu cấu hình đèn LED
+        actions = configuration.actions;  // Lưu các hành động điều khiển
+      },
+
+    eraWidget.init({
+      needRealtimeConfigs: true,
+      needActions: true,
+      onConfiguration: (configuration) => {
+        configs = configuration.realtime_configs;
+        actions = configuration.actions;
+      },
+      onValues: (values) => {
+        // Giả sử ID nhận về tương ứng với các thông số
+        for (let i = 0; i < 3; i++) {
+          document.getElementById(ids.p[i]).innerText = values[`p${i+1}`]?.value || '--';
+          document.getElementById(ids.s[i]).innerText = values[`s${i+1}`]?.value || '--';
+          document.getElementById(ids.cos[i]).innerText = values[`cos${i+1}`]?.value || '--';
+          document.getElementById(ids.u[i]).innerText = values[`u${i+1}`]?.value || '--';
+        }
+        document.getElementById(ids.tanSo).innerText = values["tanSo"]?.value || '-- Hz';
+
+        // Cập nhật biểu đồ
+        const t = new Date().toLocaleTimeString().split(':')[1];
+        chart.data.labels.push(t);
+        if (chart.data.labels.length > 15) chart.data.labels.shift();
+        for (let i = 0; i < 3; i++) {
+          const val = values[`p${i+1}`]?.value || 0;
+          chart.data.datasets[i].data.push(val);
+          if (chart.data.datasets[i].data.length > 15) chart.data.datasets[i].data.shift();
+        }
+        chart.update();
+
+        // Relay trạng thái (0/1)
+        for (let i = 0; i < 8; i++) {
+          const r = document.getElementById(ids.relays[i]);
+          const st = values[`r${i+1}`]?.value;
+          r.classList.toggle('on', st === 1);
+        }
+
+        // LED
+        const ledState = values["led"]?.value;
+        const status = document.getElementById(ids.led);
+        if (ledState === 1) status.innerText = "Đèn đang bật";
+        else status.innerText = "Đèn đang tắt";
+      }
+    });
+
+    // Điều khiển LED test
+    turnOn.onclick = () => eraWidget.triggerAction(actions[0]?.action, null);
+    turnOff.onclick = () => eraWidget.triggerAction(actions[1]?.action, null);
+  </script>
+</body>
+</html>
