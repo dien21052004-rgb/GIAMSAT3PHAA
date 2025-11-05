@@ -27,7 +27,7 @@
 #define VPIN_COSA 7
 #define VPIN_COSB 8
 #define VPIN_COSC 9
-
+#define GPIO 0
 
 float protectCurrent = 0.0;
 
