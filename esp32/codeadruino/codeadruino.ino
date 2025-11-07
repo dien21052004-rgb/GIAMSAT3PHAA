@@ -17,7 +17,7 @@
 // Enable debug console
 #define ERA_DEBUG
 #define VPIN_PROTECT_FROM   10
-#define VPIN_PROTECT_TO     11
+
 #define VPIN_PA   1
 #define VPIN_PB   2
 #define VPIN_PC   3
@@ -27,6 +27,8 @@
 #define VPIN_COSA 7
 #define VPIN_COSB 8
 #define VPIN_COSC 9
+#define VPIN_ESP32 11
+#define VPIN_STM 12
 #define GPIO 0
 
 float protectCurrent = 0.0;
@@ -195,35 +197,40 @@ ERaString estr;
 /* This function print uptime every second */
 void timerEvent() {
     ERA_LOG(ERA_PSTR("Timer"), ERA_PSTR("Uptime: %d"), ERaMillis() / 1000L);
-  float P_A = random(100, 200); // dữ liệu ảo
-  float P_B = random(200, 300);
-  float P_C = random(300, 400);
-  float V_A = random(1000, 2000); 
-  float V_B = random(2000, 3000); 
-  float V_C = random(3000, 4000);  
-float COSA = 0.8 + random(-50, 51) / 1000.0;  // 0.75 - 0.85
-float COSB = 0.85 + random(-30, 31) / 1000.0; // 0.82 - 0.88
-float COSC = 0.9 + random(-20, 21) / 1000.0;  // 0.88 - 0.92
-  ERa.virtualWrite(VPIN_PA, P_A);
-  ERa.virtualWrite(VPIN_PB, P_B);
-  ERa.virtualWrite(VPIN_PC, P_C);
-  ERa.virtualWrite(VPIN_S1, V_A);
-  ERa.virtualWrite(VPIN_S2, V_B);
-  ERa.virtualWrite(VPIN_S3, V_C);
-  ERa.virtualWrite(VPIN_COSA, COSA);
-  ERa.virtualWrite(VPIN_COSB, COSB);
-  ERa.virtualWrite(VPIN_COSC, COSC);
-  ERA_LOG(ERA_PSTR("Timer"), ERA_PSTR("P_A=%.2f, P_B=%.2f, P_C=%.2f,V_A=%.2f, V_B=%.2f, V_C=%.2f,COSA=%.2f, COSB=%.2f, COSC=%.2f"), P_A, P_B, P_C,V_A, V_B, V_C,COSA,COSB,COSC);
+    float P_A = random(100, 200); // dữ liệu ảo
+    float P_B = random(200, 300);
+    float P_C = random(300, 400);
+    float V_A = random(1000, 2000); 
+    float V_B = random(2000, 3000); 
+    float V_C = random(3000, 4000);  
+    float COSA = 0.8 + random(-50, 51) / 1000.0;  // 0.75 - 0.85
+    float COSB = 0.85 + random(-30, 31) / 1000.0; // 0.82 - 0.88
+    float COSC = 0.9 + random(-20, 21) / 1000.0;  // 0.88 - 0.92
+    float TempESP32 = random(0, 100); 
+    float TempSTM = random(0, 100);
+    ERa.virtualWrite(VPIN_PA, P_A);
+    ERa.virtualWrite(VPIN_PB, P_B);
+    ERa.virtualWrite(VPIN_PC, P_C);
+    ERa.virtualWrite(VPIN_S1, V_A);
+    ERa.virtualWrite(VPIN_S2, V_B);
+    ERa.virtualWrite(VPIN_S3, V_C);
+    ERa.virtualWrite(VPIN_COSA, COSA);
+    ERa.virtualWrite(VPIN_COSB, COSB);
+    ERa.virtualWrite(VPIN_COSC, COSC);
+    ERa.virtualWrite(VPIN_ESP32, TempESP32);
+    ERa.virtualWrite(VPIN_STM, TempSTM);    
+    ERA_LOG(ERA_PSTR("Timer"), ERA_PSTR("P_A=%.2f, P_B=%.2f, P_C=%.2f,V_A=%.2f, V_B=%.2f, V_C=%.2f,COSA=%.2f, COSB=%.2f, COSC=%.2f, TempESP32=%.2f, TempSTM=%.2f"), P_A, P_B, P_C,V_A, V_B, V_C,COSA,COSB,COSC,TempESP32,TempSTM);
 //   ERA_LOG(ERA_PSTR("Timer"), ERA_PSTR("V_A=%.2f, V_B=%.2f, V_C=%.2f"), V_A, V_B, V_C);
 
 }
 
-
+//NHAN CHUOI TU E-RA GUI XUONG
 ERA_WRITE(V10) {
     if (!param.isString()) return;
     ERaString estr = param.getString();
-    if (estr == "10") digitalWrite(0, HIGH);
-    else if (estr == "0") digitalWrite(0, LOW);
+    ERa.virtualWrite(0, "10");
+    if (estr == "10") digitalWrite(GPIO, HIGH);
+    else if (estr == "0") digitalWrite(GPIO, LOW);
 }
 #if defined(USE_BASE_TIME)
     unsigned long getTimeCallback() {
