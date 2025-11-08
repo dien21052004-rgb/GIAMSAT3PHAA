@@ -9,7 +9,7 @@
   <!-- Base path cho GitHub Pages -->
   <script>
     if (location.hostname === "dien21052004-rgb.github.io") {
-      document.write('https://dien21052004-rgb.github.io/GIAMSAT3PHAA/giaodien.html">');
+      document.write('<base href="https://dien21052004-rgb.github.io/GIAMSAT3PHAA/giaodien.html">');
     } else {
       document.write('<base href="./">');
     }
@@ -36,7 +36,7 @@
       padding: 0;
     }
     .container {
-      max-width: 2000px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
     }
@@ -51,47 +51,57 @@
       box-shadow: 0 0 12px rgba(0, 123, 255, 0.2);
       flex-wrap: wrap;
       gap: 20px;
+      margin-bottom: 20px;
     }
     .header-left {
       display: flex;
       align-items: center;
       gap: 20px;
+      flex: 1;
+    }
+    .header-left img {
+      height: 80px;
+      max-width: 100%;
     }
     .project-title {
-    color: #1E40AF; /* xanh dương đậm */
-    
-    font-weight: 500;
-  }
-
-  .project-info {
-    color: #000; /* màu đen */
-    font-size: 16px;
-    margin: 4px 0;
-  }
-    .header-left h2 {
-      margin: 0 0 8px 0;
-      
-      color: #0d6efd;
-      
-      font-weight: 700;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+      color: #1E40AF;
+      font-weight: 500;
+      font-size: 1.2rem;
+      margin: 0;
     }
-    .header-left p {
-      margin: 4px 0;
+    .project-info {
+      color: #000;
       font-size: 16px;
-      color: #333;
+      margin: 4px 0;
+    }
+    .header-center {
+      flex: 2;
+    }
+    .temp-protect-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .protect-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      text-align: center;
+      flex: 1;
+      min-width: 300px;
     }
     .header-right {
       background: linear-gradient(135deg, #f8f9fa, #e9f0f9);
       border-radius: 20px;
-      width: 320px;
       padding: 20px;
       text-align: center;
       box-shadow: 0 0 12px rgba(0, 123, 255, 0.2);
-    }
-    .header-right h5 {
-      font-weight: bold;
-      margin-bottom: 20px;
+      flex: 1;
+      min-width: 300px;
     }
     .flex-center {
       display: flex;
@@ -99,29 +109,34 @@
       align-items: center;
     }
     .card-row {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 20px;
-      margin-top: 20px;
+      margin-bottom: 20px;
     }
     .card {
-      flex: 1 1 calc(33.33% - 20px);
       background: #fff;
       border-radius: 10px;
       padding: 15px;
       box-shadow: 0 0 8px rgba(0,0,0,0.1);
       text-align: center;
-      min-width: 250px;
-    }
-    .card h5 {
-      margin-bottom: 10px;
     }
     .gauge-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, auto);
       gap: 20px;
-      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    .gauge-row > div {
+      width: 100%;
+      height: 250px;
+    }
+    .relay-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, auto);
+      gap: 20px;
     }
     .relay-box {
       border: 2px solid #e0e0e0;
@@ -167,24 +182,73 @@
     .btn-outline-success:hover { background-color: #22c55e; color: white; }
     .btn-outline-danger:hover { background-color: #ef4444; color: white; }
     input[type="number"] { max-width: 180px; text-align: center; }
-    @media(max-width: 992px){
-      .card { flex: 1 1 100%; }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .header-card {
+        flex-direction: column;
+        text-align: center;
+      }
+      .header-left, .header-center {
+        flex: none;
+        width: 100%;
+      }
+      .temp-protect-row {
+        flex-direction: column;
+      }
+      .gauge-row {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, auto);
+      }
+      .relay-row {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(4, auto);
+      }
+    }
+    @media (max-width: 768px) {
+      .container { padding: 10px; }
+      .header-left img { height: 60px; }
+      .project-title { font-size: 1rem; }
+      .gauge-row {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(6, auto);
+      }
+      .relay-row {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(8, auto);
+      }
+      .card-row {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 576px) {
+      .protect-card, .header-right { padding: 15px; }
     }
   </style>
 </head>
 
 <body>
   <div class="container">
+    <!-- Header Section -->
     <div class="header-card">
       <div class="header-left">
-        <img src="https://cdn.haitrieu.com/wp-content/uploads/2021/12/Logo-DH-Thu-Dau-Mot-TDMU.png" alt="Logo TDMU" style="height:80px;">
+        <img src="https://cdn.haitrieu.com/wp-content/uploads/2021/12/Logo-DH-Thu-Dau-Mot-TDMU.png" alt="Logo TDMU">
       </div>
-            <div>
-            <h2 class="project-title">THIẾT KẾ & THI CÔNG MÔ HÌNH HỆ THÔNG GIÁM SÁT ĐIỆN PHA 3</h2>
-            <p class="project-info"><strong>GVHD:</strong> Nguyễn Văn Bình</p>
-            <p class="project-info"><strong>SVTH:</strong><br>Lê Phước Nguyên<br>Nguyễn Huỳnh Ngọc Điền — MSSV: 2225202160107</p>
-            </div>
+      <div class="header-center">
+        <h2 class="project-title">THIẾT KẾ & THI CÔNG MÔ HÌNH HỆ THÔNG GIÁM SÁT ĐIỆN PHA 3</h2>
+        <p class="project-info"><strong>GVHD:</strong> Nguyễn Văn Bình</p>
+        <p class="project-info"><strong>SVTH:</strong><br>Lê Phước Nguyên<br>Nguyễn Huỳnh Ngọc Điền — MSSV: 2225202160107</p>
+      </div>
+    </div>
 
+    <!-- Temperature and Protect Configuration Row -->
+    <div class="temp-protect-row">
+      <div class="protect-card">
+        <h5 class="text-primary">CẤU HÌNH DÒNG ĐIỆN BẢO VỆ</h5>
+        <p class="text-muted">Nhập giá trị dòng điện ngưỡng (A) áp dụng cho cả 3 pha</p>
+        <input type="number" id="protectAll" placeholder="Nhập giá trị (A)" min="0" step="0.1">
+        <button id="sendProtect" class="btn btn-success">Xác Nhận</button>
+      </div>
       <div class="header-right">
         <h5>🌡️ Nhiệt độ STM & ESP32</h5>
         <div class="flex-center">
@@ -201,7 +265,7 @@
       </div>
     </div>
 
-    <!-- Card công suất, cosφ -->
+    <!-- Cards for Cosφ and Power -->
     <div class="card-row">
       <div class="card">
         <h5 class="text-primary">COS φ 3 PHA</h5>
@@ -223,35 +287,29 @@
       </div>
     </div>
 
-    <!-- Đồng hồ gauge -->
+    <!-- Gauges Section -->
     <div class="gauge-row">
-      <div id="gaugeA" style="width: 30%; min-width:250px; height:250px;"></div>
-      <div id="gaugeB" style="width: 30%; min-width:250px; height:250px;"></div>
-      <div id="gaugeC" style="width: 30%; min-width:250px; height:250px;"></div>
-      <div id="gaugeSA" style="width: 30%; min-width:250px; height:250px;"></div>
-      <div id="gaugeSB" style="width: 30%; min-width:250px; height:250px;"></div>
-      <div id="gaugeSC" style="width: 30%; min-width:250px; height:250px;"></div>
+      <div id="gaugeA"></div>
+      <div id="gaugeB"></div>
+      <div id="gaugeC"></div>
+      <div id="gaugeSA"></div>
+      <div id="gaugeSB"></div>
+      <div id="gaugeSC"></div>
     </div>
 
-    <!-- Relay -->
-    <div class="card-row" id="relayContainer">
-      <!-- Relay sẽ tạo bằng JS -->
-    </div>
-
-    <!-- Dòng điện bảo vệ -->
-    <div class="card" style="margin-top:20px; text-align:center;">
-      <h5 class="text-primary">CẤU HÌNH DÒNG ĐIỆN BẢO VỆ</h5>
-      <p class="text-muted">Nhập giá trị dòng điện ngưỡng (A) áp dụng cho cả 3 pha</p>
-      <input type="number" id="protectAll" placeholder="Nhập giá trị (A)" min="0" step="0.1">
-      <button id="sendProtect" class="btn btn-success">Xác Nhận</button>
+    <!-- Relays Section -->
+    <div class="relay-row" id="relayContainer">
+      <!-- Relays will be created by JS -->
     </div>
   </div>
 
   <script>
+    // ... (JavaScript code remains the same, with minor adjustments if needed for new IDs/classes)
+    // For example, ensure relay creation uses the new .relay-row class
     const relayContainer = document.getElementById('relayContainer');
     for(let i=1;i<=8;i++){
       const div = document.createElement('div');
-      div.classList.add('card');
+      div.classList.add('card'); // Keep as card for consistency
       div.innerHTML = `
         <div class="relay-box" id="relayBox${i}">
           <div class="relay-header">
@@ -268,7 +326,7 @@
       relayContainer.appendChild(div);
     }
 
-    // Highcharts gauge functions
+    // Highcharts gauge functions (unchanged)
     function createGauge(container, title, color, max=400) {
       return Highcharts.chart(container, {
         chart: { type: 'gauge', height: 250, backgroundColor: 'transparent' },
@@ -294,8 +352,7 @@
     const gaugeSB = createGauge('gaugeSB','Dòng Điện Pha B','#ffc107',20);
     const gaugeSC = createGauge('gaugeSC','Dòng Điện Pha C','#17a2b8',20);
 
-    // EraWidget integration: bạn có thể copy phần JS từ mã cũ
-    // eraWidget.init(...) 
+
       <!-- Tải thư viện Era Widget -->
 
  
